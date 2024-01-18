@@ -23,5 +23,5 @@ void main() {
       log('$error', stackTrace: stack);
     },
   );
-  //Флаттер лучший
+  //dsadadasdas
 }
