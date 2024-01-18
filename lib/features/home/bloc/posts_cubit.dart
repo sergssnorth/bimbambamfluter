@@ -68,7 +68,7 @@ class UserPostsCubit extends Cubit<PostsState> {
   Future<void> init() async {
     emit(PostsLoadingState());
     page = 1;
-    final postsInfo = await postDataSource.getPosts(page: page);
+    final postsInfo = await postDataSource.getPostsByUser(page: page);
     emit(PostsLoadedState(postsInfo: postsInfo));
   }
 
@@ -81,7 +81,7 @@ class UserPostsCubit extends Cubit<PostsState> {
 
     emit(PostsLoadingState());
 
-    final postsInfo = await postDataSource.getPosts(page: ++page);
+    final postsInfo = await postDataSource.getPostsByUser(page: ++page);
 
     emit(
       PostsLoadedState(
