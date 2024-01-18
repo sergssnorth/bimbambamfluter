@@ -4,21 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/posts_cubit.dart';
 import 'widgets/post_preview_card.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class MyProfilePage extends StatefulWidget {
+  const MyProfilePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyProfilePage> createState() => _MyProfilePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyProfilePageState extends State<MyProfilePage> {
   late final ScrollController scrollController;
-  late final HomePostsCubit postsCubit;
+  late final UserPostsCubit postsCubit;
 
   @override
   void initState() {
     scrollController = ScrollController()..addListener(listenScroll);
-    postsCubit = HomePostsCubit(context.read())..init();
+    postsCubit = UserPostsCubit(context.read())..init();
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: BlocBuilder<HomePostsCubit, PostsState>(
+      body: BlocBuilder<UserPostsCubit, PostsState>(
         bloc: postsCubit,
         builder: (context, state) {
           return switch (state) {

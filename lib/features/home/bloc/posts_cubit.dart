@@ -17,12 +17,12 @@ class PostsLoadedState extends PostsState {
   });
 }
 
-class PostsCubit extends Cubit<PostsState> {
+class HomePostsCubit extends Cubit<PostsState> {
   final PostDataSource postDataSource;
 
   int page = 1;
 
-  PostsCubit(this.postDataSource) : super(PostsInitialState());
+  HomePostsCubit(this.postDataSource) : super(PostsInitialState());
 
   Future<void> init() async {
     emit(PostsLoadingState());
@@ -57,3 +57,45 @@ class PostsCubit extends Cubit<PostsState> {
     );
   }
 }
+
+class UserPostsCubit extends Cubit<PostsState> {
+  final PostDataSource postDataSource;
+
+  int page = 1;
+
+  UserPostsCubit(this.postDataSource) : super(PostsInitialState());
+
+  Future<void> init() async {
+    emit(PostsLoadingState());
+    page = 1;
+    final postsInfo = await postDataSource.getPosts(page: page);
+    emit(PostsLoadedState(postsInfo: postsInfo));
+  }
+
+  Future<void> nextPage() async {
+    final oldState = state;
+
+    if (oldState is! PostsLoadedState) {
+      return;
+    }
+
+    emit(PostsLoadingState());
+
+    final postsInfo = await postDataSource.getPosts(page: ++page);
+
+    emit(
+      PostsLoadedState(
+        postsInfo: ListModel<PostPreview>(
+          data: [
+            ...oldState.postsInfo.data,
+            ...postsInfo.data,
+          ],
+          total: postsInfo.total,
+          limit: postsInfo.limit,
+          page: postsInfo.page,
+        ),
+      ),
+    );
+  }
+}
+
