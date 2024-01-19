@@ -64,9 +64,5 @@ class _MyProfilePageState extends State<MyProfilePage> {
   Future<void> listenScroll() async {
     final isPageEnd = scrollController.offset + 150 >
         scrollController.position.maxScrollExtent;
-
-    if (isPageEnd) {
-      await postsCubit.nextPage();
-    }
   }
 }
