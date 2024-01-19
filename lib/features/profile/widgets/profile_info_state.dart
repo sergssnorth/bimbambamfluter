@@ -26,7 +26,7 @@ class ProfileInformationState extends State<ProfileInformation> {
   Future<void> init() async {
     String userId = '65a9a63d52c5e80be266c14e';
     final usersInfo = await profileDataSource.getUserInfo(userId);
-    user = usersInfo.data;
+    user = usersInfo;
     Photo = user.picture;
     setState(() {});
   }

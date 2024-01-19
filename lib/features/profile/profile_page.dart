@@ -32,8 +32,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   Future<void> init() async {
     String userId = '65a9a63d52c5e80be266c14e';
-    final usersInfo = await profileDataSource.getUserInfo(userId);
-    firstname = usersInfo.firstName;
+    //final usersInfo = await profileDataSource.getUserInfo(userId);
+    //firstname = usersInfo.firstName;
     setState(() {});
   }
 

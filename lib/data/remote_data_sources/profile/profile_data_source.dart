@@ -25,6 +25,7 @@ class ProfileDataSource {
       // Обработка ошибок при выполнении запроса
       throw Exception('Error: $error');
     }
+
   }
 
   Future<UserPreview> updateUser(
