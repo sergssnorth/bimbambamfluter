@@ -23,7 +23,7 @@ class PhotoGridWidget extends StatelessWidget {
             onTap: () {
               showFullScreenImage(context, userPhotos[index]);
             },
-            child: Image.asset(
+            child: Image.network(
               userPhotos[index],
               fit: BoxFit.cover,
             ),
@@ -42,7 +42,7 @@ class PhotoGridWidget extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Image.asset(
+            child: Image.network(
               imageUrl,
               fit: BoxFit.cover,
             ),
