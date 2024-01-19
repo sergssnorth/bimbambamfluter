@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'bloc/posts_cubit.dart';
 import 'widgets/post_preview_card.dart';
 
@@ -37,22 +36,22 @@ class _MyProfilePageState extends State<MyProfilePage> {
         builder: (context, state) {
           return switch (state) {
             PostsLoadedState() => ListView.builder(
-                controller: scrollController,
-                itemCount: state.postsInfo.data.length,
-                prototypeItem: Padding(
+              controller: scrollController,
+              itemCount: state.postsInfo.data.length,
+              prototypeItem: Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: PostPreviewCard(
+                  postPreview: state.postsInfo.data.first,
+                ),
+              ),
+              itemBuilder: (context, index) {
+                return Padding(
                   padding: const EdgeInsets.only(top: 24),
                   child: PostPreviewCard(
-                    postPreview: state.postsInfo.data.first,
+                    postPreview: state.postsInfo.data[index],
                   ),
-                ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 24),
-                    child: PostPreviewCard(
-                      postPreview: state.postsInfo.data[index],
-                    ),
-                  );
-                },
+                );
+              },
               ),
             _ => const Center(child: CircularProgressIndicator()),
           };
