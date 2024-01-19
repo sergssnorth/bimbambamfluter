@@ -10,7 +10,7 @@ class ProfileInformationWidget extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 50.0,
-            backgroundImage: AssetImage('avatar.jpg'), // Замените на реальный URL аватара
+            backgroundImage: NetworkImage('avatar.jpg'), // Замените на реальный URL аватара
           ),
           SizedBox(width: 16.0), // Добавим промежуток между фото и текстом
           Expanded(
