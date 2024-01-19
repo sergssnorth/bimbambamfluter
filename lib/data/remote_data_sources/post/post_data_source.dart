@@ -43,24 +43,6 @@ class PostDataSource {
     return model;
   }
 
-  Future<UserPreview> getUserInfo(String userId) async {
-    try {
-      final result = await dio.get('/user/$userId');
-
-      if (result.statusCode == 200) {
-        return source_user_preview.UserPreview.fromJson(result.data).toEntity();
-
-
-      } else {
-        // Обработка ошибок, например, если ответ не успешен
-        throw Exception('Failed to load user information');
-      }
-    } catch (error) {
-      // Обработка ошибок при выполнении запроса
-      throw Exception('Error: $error');
-    }
-  }
-
   Future<void> getPostsByTag() async {}
 
   Future<void> getPostById() async {}

@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rugram/features/profile/widgets/profile_info.dart';
 
 import '../../../data/remote_data_sources/models/user_preview.dart';
 import '../../../data/remote_data_sources/post/post_data_source.dart';
+import '../../../data/remote_data_sources/profile/profile_data_source.dart';
 
 class ProfileInformationState extends State<ProfileInformation> {
-  late final PostDataSource postDataSource;
+  late final ProfileDataSource profileDataSource;
   late UserPreview user;
   //final picker = ImagePicker();
   String Photo = "...";
@@ -17,13 +19,14 @@ class ProfileInformationState extends State<ProfileInformation> {
   @override
   void initState() {
     super.initState();
-    postDataSource = context.read<ProfileDataSource>();
+    profileDataSource = context.read<ProfileDataSource>();
     init();
   }
 
   Future<void> init() async {
-    final usersInfo = await profileDataSource.getProfiles();
-    user = usersInfo.data[10];
+    String userId = '65a9a63d52c5e80be266c14e';
+    final usersInfo = await profileDataSource.getUserInfo(userId);
+    user = usersInfo.data;
     Photo = user.picture;
     setState(() {});
   }
@@ -37,7 +40,7 @@ class ProfileInformationState extends State<ProfileInformation> {
         children: [
           CircleAvatar(
             radius: 50.0,
-            backgroundImage: NetworkImage(imageUrls), // Замените на реальный URL аватара
+            backgroundImage: NetworkImage(widget.imageUrls), // Замените на реальный URL аватара
           ),
           SizedBox(width: 16.0), // Добавим промежуток между фото и текстом
           Expanded(
@@ -45,7 +48,7 @@ class ProfileInformationState extends State<ProfileInformation> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  firstName,
+                  widget.firstName,
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
