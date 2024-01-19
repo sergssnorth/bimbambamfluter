@@ -61,13 +61,13 @@ class HomePostsCubit extends Cubit<PostsState> {
 class UserPostsCubit extends Cubit<PostsState> {
   final PostDataSource postDataSource;
 
-  int page = 1;
+  int page = 0;
 
   UserPostsCubit(this.postDataSource) : super(PostsInitialState());
 
   Future<void> init() async {
     emit(PostsLoadingState());
-    page = 1;
+    page = 0;
     final postsInfo = await postDataSource.getPostsByUser(page: page);
     emit(PostsLoadedState(postsInfo: postsInfo));
   }

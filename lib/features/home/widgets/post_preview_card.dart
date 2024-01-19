@@ -24,7 +24,6 @@ class PostPreviewCard extends StatelessWidget {
           UserPreviewHeader(userPreview: postPreview.owner),
           CachedNetworkImageComponent(
             url: postPreview.image,
-            fit: BoxFit.cover,
             width: size,
             height: size,
           ),
