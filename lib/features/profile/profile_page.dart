@@ -37,6 +37,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
     user = usersInfo;
     firstname = user.firstName;
+    imageUrls = user.picture;
     setState(() {});
   }
 

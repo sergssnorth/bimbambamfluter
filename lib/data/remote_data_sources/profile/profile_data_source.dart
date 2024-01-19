@@ -16,7 +16,6 @@ class ProfileDataSource {
       if (result.statusCode == 200) {
         return source_user_preview.UserPreview.fromJson(result.data).toEntity();
 
-
       } else {
         // Обработка ошибок, например, если ответ не успешен
         throw Exception('Failed to load user information');
