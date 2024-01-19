@@ -1,63 +1,94 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'widgets/photo_grid.dart';
-import 'widgets/profile_info.dart';
-import 'package:rugram/data/remote_data_sources/post/post_data_source.dart';
-import 'bloc/user_info_cubit.dart';
+import '../../data/remote_data_sources/models/user_preview.dart';
+import '../../data/remote_data_sources/post/post_data_source.dart';
+import '../home/bloc/posts_cubit.dart';
+import '../home/widgets/post_preview_card.dart';
+import '../profile/widgets/profile_info.dart';
 
-class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+class MyProfilePage extends StatefulWidget {
+  const MyProfilePage({super.key});
 
   @override
-  State<UserProfilePage> createState() => _UserProfilePageState();
+  State<MyProfilePage> createState() => _MyProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
-  //late final UserInfoCubit userInfoCubit;
+class _MyProfilePageState extends State<MyProfilePage> {
   late final PostDataSource profileDataSource;
+  late final ScrollController scrollController;
+  late final UserPostsCubit postsCubit;
+  String firstname = "...";
+  late UserPreview user;
+  String imageUrls = "";
 
   @override
   void initState() {
-    //userInfoCubit = UserInfoCubit(context.read())..init();
+    scrollController = ScrollController()..addListener(listenScroll);
+    postsCubit = UserPostsCubit(context.read())..init();
+    profileDataSource = context.read<PostDataSource>();
     super.initState();
-
+    init();
   }
 
-  Future<void> fetchData() async {
-    try {
-      final data = await profileDataSource.getUserInfo("65a9a63d52c5e80be266c14e");
-      setState(() {
-        username = data['username'];
-        avatarUrl = data['avatarUrl'];
-        userPhotos = List<String>.from(data['userPhotos']);
-      });
-    } catch (error) {
-      // Обработка ошибки при выполнении запроса
-      print('Error: $error');
-    }
+  Future<void> init() async {
+    String userId = '65a9a63d52c5e80be266c14e';
+    final usersInfo = await profileDataSource.getUserInfo(userId);
+    firstname = usersInfo.firstName;
+    setState(() {});
+  }
 
-  List<String> userPhotos = [
-    'https://i.postimg.cc/fbvkYCVk/image.png%22,',
-    'https://i.postimg.cc/fbvkYCVk/image.png%22,',
-    'https://i.postimg.cc/fbvkYCVk/image.png%22,',
-    // Добавьте здесь реальные URL фотографий пользователя
-  ];
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Имя пользователя'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        backgroundColor: Colors.transparent,
+        body: Column(
           children: [
-            ProfileInformationWidget(avatarUrl: avatarUrl, username: username),
-            PhotoGridWidget(userPhotos: userPhotos),
+            ProfileInformation(
+              imageUrls: imageUrls,
+              firstName: firstname,
+            ),
+            SizedBox(
+              height: 650.0,
+              child: BlocBuilder<UserPostsCubit, PostsState>(
+                bloc: postsCubit,
+                builder: (context, state) {
+                  return switch (state) {
+                    PostsLoadedState() => ListView.builder(
+                      controller: scrollController,
+                      itemCount: state.postsInfo.data.length,
+                      prototypeItem: Padding(
+                        padding: const EdgeInsets.only(top: 24),
+                        child: PostPreviewCard(
+                          postPreview: state.postsInfo.data.first,
+                        ),
+                      ),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 24),
+                          child: PostPreviewCard(
+                            postPreview: state.postsInfo.data[index],
+                          ),
+                        );
+                      },
+                    ),
+                    _ => const Center(child: CircularProgressIndicator()),
+                  };
+                },
+              ),
+            ),
           ],
-        ),
-      ),
+        )
     );
+  }
+
+  Future<void> listenScroll() async {
+    final isPageEnd = scrollController.offset + 150 >
+        scrollController.position.maxScrollExtent;
   }
 }

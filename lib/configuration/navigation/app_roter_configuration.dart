@@ -37,7 +37,7 @@ class AppRouterConfiguration {
             GoRoute(
               name: AppRoutes.profile.name,
               path: AppRoutes.profile.path,
-              builder: (context, state) => const UserProfilePage(),
+              builder: (context, state) => const MyProfilePage(),
             ),
           ],
         ),
