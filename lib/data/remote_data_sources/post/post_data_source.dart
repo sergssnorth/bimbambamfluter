@@ -45,10 +45,12 @@ class PostDataSource {
 
   Future<UserPreview> getUserInfo(String userId) async {
     try {
-      final result = await dio.get('/user/65a9a63d52c5e80be266c14e');
+      final result = await dio.get('/user/$userId');
 
       if (result.statusCode == 200) {
         return source_user_preview.UserPreview.fromJson(result.data).toEntity();
+
+
       } else {
         // Обработка ошибок, например, если ответ не успешен
         throw Exception('Failed to load user information');

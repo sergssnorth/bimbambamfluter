@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'bloc/posts_cubit.dart';
 import 'widgets/post_preview_card.dart';
 
