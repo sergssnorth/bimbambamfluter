@@ -3,9 +3,12 @@ import 'package:rugram/data/remote_data_sources/models/list_model.dart'
     as source_source_list_model;
 import 'package:rugram/data/remote_data_sources/models/post_preview.dart'
     as source_post_preview;
+import 'package:rugram/data/remote_data_sources/models/user_preview.dart'
+as source_user_preview;
 import 'package:rugram/domain/models/list_model.dart';
 import 'package:rugram/domain/models/post_create.dart';
 import 'package:rugram/domain/models/post_preview.dart';
+import 'package:rugram/domain/models/user_preview.dart';
 
 class PostDataSource {
   final Dio dio;
@@ -38,6 +41,22 @@ class PostDataSource {
     ) as ListModel<PostPreview>;
 
     return model;
+  }
+
+  Future<UserPreview> getUserInfo(String userId) async {
+    try {
+      final result = await dio.get('/user/65a9a63d52c5e80be266c14e');
+
+      if (result.statusCode == 200) {
+        return source_user_preview.UserPreview.fromJson(result.data).toEntity();
+      } else {
+        // Обработка ошибок, например, если ответ не успешен
+        throw Exception('Failed to load user information');
+      }
+    } catch (error) {
+      // Обработка ошибок при выполнении запроса
+      throw Exception('Error: $error');
+    }
   }
 
   Future<void> getPostsByTag() async {}
