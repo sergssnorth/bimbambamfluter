@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rugram/features/profile/widgets/profile_info.dart';
-
-import '../../../data/remote_data_sources/models/user_preview.dart';
 import '../../../data/remote_data_sources/post/post_data_source.dart';
 import '../../../data/remote_data_sources/profile/profile_data_source.dart';
+import '../../../domain/models/user_preview.dart';
 
 class ProfileInformationState extends State<ProfileInformation> {
   late final ProfileDataSource profileDataSource;
