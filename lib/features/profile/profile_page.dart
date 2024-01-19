@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/remote_data_sources/models/user_preview.dart';
 import '../../data/remote_data_sources/post/post_data_source.dart';
+import '../../data/remote_data_sources/profile/profile_data_source.dart';
+import '../../domain/models/user_preview.dart';
 import '../home/bloc/posts_cubit.dart';
 import '../home/widgets/post_preview_card.dart';
 import '../profile/widgets/profile_info.dart';
@@ -14,7 +15,7 @@ class MyProfilePage extends StatefulWidget {
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
-  late final PostDataSource profileDataSource;
+  late final ProfileDataSource profileDataSource;
   late final ScrollController scrollController;
   late final UserPostsCubit postsCubit;
   String firstname = "...";
@@ -25,15 +26,17 @@ class _MyProfilePageState extends State<MyProfilePage> {
   void initState() {
     scrollController = ScrollController()..addListener(listenScroll);
     postsCubit = UserPostsCubit(context.read())..init();
-    profileDataSource = context.read<PostDataSource>();
+    profileDataSource = context.read<ProfileDataSource>();
     super.initState();
     init();
   }
 
   Future<void> init() async {
     String userId = '65a9a63d52c5e80be266c14e';
-    //final usersInfo = await profileDataSource.getUserInfo(userId);
-    //firstname = usersInfo.firstName;
+    final usersInfo = await profileDataSource.getUserInfo(userId);
+
+    user = usersInfo;
+    firstname = user.firstName;
     setState(() {});
   }
 
@@ -41,6 +44,12 @@ class _MyProfilePageState extends State<MyProfilePage> {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> update({required String name}) async {
+    final updatedUser = await profileDataSource.updateUser(userId: user.id, name: name);
+    firstname = updatedUser.firstName;
+    setState(() {});
   }
 
   @override
