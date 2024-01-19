@@ -18,9 +18,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
   late final ProfileDataSource profileDataSource;
   late final ScrollController scrollController;
   late final UserPostsCubit postsCubit;
-  String firstname = "...";
   late UserPreview user;
+  String firstname = "...";
+  String lastName = "...";
   String imageUrls = "";
+
 
   @override
   void initState() {
@@ -37,6 +39,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
     user = usersInfo;
     firstname = user.firstName;
+    lastName = user.lastName;
     imageUrls = user.picture;
     setState(() {});
   }
@@ -62,6 +65,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
             ProfileInformation(
               imageUrls: imageUrls,
               firstName: firstname,
+              lastName : lastName,
             ),
             SizedBox(
               height: 650.0,

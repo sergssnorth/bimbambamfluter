@@ -47,13 +47,13 @@ class ProfileInformationState extends State<ProfileInformation> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.firstName,
+                  widget.firstName + " " + widget.lastName,
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text('Биография пользователя...'),
+                Text('СЕРГЕЙ + АНТОН + FLUTTER❤️💋❤️‍🔥😍'),
                 // Добавьте другие элементы информации о пользователе по вашему усмотрению
               ],
             ),

@@ -6,10 +6,12 @@ class ProfileInformation extends StatefulWidget {
     super.key,
     required this.imageUrls,
     required this.firstName,
+    required this.lastName,
   });
 
   final String imageUrls;
   final String firstName;
+  final String lastName;
 
   @override
   ProfileInformationState createState() => ProfileInformationState();
